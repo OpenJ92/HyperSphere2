@@ -1,0 +1,32 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+A	Add.py	/^    A = Add(hS, hS_)$/;"	v	class:Add
+A	test.py	/^    A = Multiply(hS, *[hS1 for i in range(n)])$/;"	v
+Add	Add.py	/^class Add(Operation):$/;"	c
+Multiply	Multiply.py	/^class Multiply(Operation):$/;"	c
+Operation	Operation.py	/^class Operation:$/;"	c
+__call__	Multiply.py	/^    def __call__(self, theta):$/;"	m	class:Multiply	file:
+__call__	hyperSphere.py	/^    def __call__(self, theta):$/;"	m	class:hyperSphere	file:
+__init__	Add.py	/^    def __init__(self, *hyperSpheres):$/;"	m	class:Add
+__init__	Multiply.py	/^    def __init__(self, *hyperSpheres):$/;"	m	class:Multiply
+__init__	Operation.py	/^    def __init__(self, *hyperSpheres):$/;"	m	class:Operation
+__init__	hyperSphere.py	/^    def __init__(self, dims):$/;"	m	class:hyperSphere
+container	Operation.py	/^    def container(self, shift_):$/;"	m	class:Operation
+container_hyper_rectangle	Multiply.py	/^    def container_hyper_rectangle(self, container_):$/;"	m	class:Multiply
+container_vector	Multiply.py	/^    def container_vector(self, container_hyper_rectangle_):$/;"	m	class:Multiply
+hS	Add.py	/^    hS = hyperSphere(2)$/;"	v	class:Add
+hS	test.py	/^    hS = hyperSphere(2)$/;"	v
+hS1	test.py	/^    hS1 = hyperSphere(3)$/;"	v
+hS_	Add.py	/^    hS_ = hyperSphere(3)$/;"	v	class:Add
+hyperSphere	hyperSphere.py	/^class hyperSphere:$/;"	c
+make_add	Add.py	/^    def make_add(self):$/;"	m	class:Add
+make_product	Multiply.py	/^    def make_product(self):$/;"	m	class:Multiply
+mhs	hyperSphere.py	/^    def mhs(self, dims):$/;"	m	class:hyperSphere
+n	test.py	/^    n = 1$/;"	v
+shift	Operation.py	/^    def shift(self):$/;"	m	class:Operation
+test_angle	test.py	/^def test_angle(hypS, sample_size):$/;"	f
+test_unit	test.py	/^def test_unit(hypS, sample_size):$/;"	f

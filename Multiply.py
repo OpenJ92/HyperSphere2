@@ -16,6 +16,10 @@ class Multiply(Operation):
     def __call__(self, theta):
         return self.evaluate_function(theta)
 
+    def sample(self, sample_size):
+        sample_domain = np.random.random_sample(size = (self.dims, sample_size))
+        return np.apply_along_axis(self, 0, sample_domain).T
+
     def make_product(self):
         shift_ = self.shift()
         container_ = self.container(shift_)

@@ -34,5 +34,4 @@ class Add(Operation):
         for index, elements in enumerate(zip_longest(*container_, fillvalue = '')):
             expression = reduce(lambda x,y: f"{x}+{y}", elements)
             container_vector_[index] = expression
-            print(elements, expression)
         return container_vector_

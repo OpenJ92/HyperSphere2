@@ -1,9 +1,6 @@
 import numpy as np
 from controlPoints import controlPointsUniformRandomEnclosingPrism, controlPointsVertebralWalk
 
-# consider putting an argument that overwrites the default random control points 
-# with particularly formed points. maybe make a set of 'controlPoint' subclasses that
-# generate them in particular ways.
 class bezierCurve():
     """
         Parameters
@@ -24,21 +21,26 @@ class bezierCurve():
         self.control_points = control_points
         
     def __call__(self, t):
-        return np.ceil(self.evaluate(t)).astype('int')
+        return self.evaluate(t).flatten()
+
+    def sample(self, sample_size):
+        return np.array([self(t) for t in np.linspace(0,1,sample_size)])
 
     def evaluate(self, t):
         f = lambda t, c1, c2: (1-t)*c1 + t*c2
         temp_control = self.control_points
         while temp_control.shape[1] > 1:
-            A = [f(t, temp_control[:, i], temp_control[:, i+1]) for i in range(temp_control.shape[1] - 1)]
+            A = []
+            for i in range(temp_control.shape[1] - 1):
+                A.append(f(t, temp_control[:, i], temp_control[:, i+1]))
             temp_control = np.stack(A, axis = 1)
 
         return temp_control
 
 if __name__ == '__main__':
-    shape_in = np.array([10,128,128])
-    shape_out = np.array([100,4,4])
+    n = 4
+    shape_in = np.random.random_sample(size = n)
+    shape_out = np.array([np.pi*2 for i in range(n)])
     control_points = controlPointsUniformRandomEnclosingPrism(shape_in, shape_out)(10)
-    control_points = controlPointsVertebralWalk(shape_in, shape_out, np.array([1,1,1]))(10)
     bezier = bezierCurve(shape_in,shape_out, control_points)
 

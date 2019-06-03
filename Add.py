@@ -4,8 +4,29 @@ import numpy as np
 from itertools import product, zip_longest
 from functools import reduce
 from Operation import Operation
+from Loop import Loop
+from hyperSphere import hyperSphere
 
 class Add(Operation):
+    """
+    Parameters
+    ___________
+    hyperSpheres::iterable(hyperSphere)
+
+    Attributes
+    __________
+    self.dims::int : dimenstion of the space needed to evaluate Multiply
+    self.str_func::str : resulting code from construction
+
+    Methods
+    __________
+    self.make_add : generator function -> code to produce str_func
+    self.container_vector(container) : construct add vector from container
+
+    self(x::np.array)::np.array
+    self(x::Loop)::np.ndarray
+    self(hyperSphere)::np.ndarray
+    """
     def __init__(self, *hyperSpheres):
         super(Add, self).__init__(*hyperSpheres)
         self.str_func = self.make_add()
@@ -14,7 +35,13 @@ class Add(Operation):
         self.dims = sum(self.DomainDims)
     
     def __call__(self, theta):
-        return self.evaluate_function(theta)
+        if isinstance(theta, Loop):
+            assert self.dims == theta().shape[1]
+            return np.apply_along_axis(self, 1, theta())
+        elif isinstance(theta, hyperSphere):
+            pass
+        else:
+            return self.evaluate_function(theta)
 
     def make_add(self):
         shift_ = self.shift()

@@ -4,8 +4,31 @@ import numpy as np
 from itertools import product
 from functools import reduce
 from Operation import Operation
+from Loop import Loop
+from hyperSphere import hyperSphere
 
 class Multiply(Operation):
+    """
+        Parameters
+        ___________
+        hyperSpheres::iterable(hyperSphere)
+
+        Attributes
+        ___________
+        self.dims::int : dimenstion of the space needed to evaluate Multiply
+        self.str_func::str : resulting code from construction
+
+        Methods
+        __________
+        self.make_product : generator function -> code to produce str_func
+        self.container_hyper_rectangle(conatiner) : take hyperSphere elements and pair in hyper rectangle
+        self.conatiner_vector(x::hyper_rectangle) : construct product vector from rectangle
+        self.sample(x::int)::np.array : evaluate self at a random sample
+
+        self(x::np.array)::np.array
+        self(x::Loop)::np.ndarray
+        self(x::hyperSphere)::np.ndarray
+    """
     def __init__(self, *hyperSpheres):
         super(Multiply, self).__init__(*hyperSpheres)
         self.str_func = self.make_product()
@@ -14,7 +37,13 @@ class Multiply(Operation):
         self.dims = sum(self.DomainDims)
 
     def __call__(self, theta):
-        return self.evaluate_function(theta)
+        if isinstance(theta, Loop):
+            assert self.dims == theta().shape[1]
+            return np.apply_along_axis(self, 1, theta())
+        elif isinstance(theta, hyperSphere):
+            pass
+        else:
+            return self.evaluate_function(theta)
 
     def sample(self, sample_size):
         sample_domain = np.random.random_sample(size = (self.dims, sample_size))

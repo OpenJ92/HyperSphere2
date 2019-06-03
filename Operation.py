@@ -2,6 +2,26 @@ import itertools
 from itertools import product
 
 class Operation:
+    """
+    Parameters
+    ___________
+    hyperSpheres::itterable(hyperSphere)
+
+    Attributes
+    __________
+    self.hyperSpheres::itterable(hyperSphere) : set of hyperSpheres upon which child operation will act on.
+    self.terms::int : number of term in child operation
+    self.RangeDims::itterable(int) : list of range dimension for each hyper sphere
+    self.DomainDim::itterable(int) : list of domain dimension for each hyper sphere
+    self.IndexDim::itterable(int) : list of max index for each hyper sphere
+    self.basis_bounds:itterable(itterable(int)) : set of ranges for each domain list
+    self.cartesian_product::itterable : index construction for looping over hyper objects
+
+    Methods
+    ________
+    self.shift : iterate over hyperSphere objects and augment code s.t. there exists no overlap in domain labels
+    self.container : take string vector components from hyperSphere str_func and place into array
+    """
     def __init__(self, *hyperSpheres):
         self.hyperSpheres = hyperSpheres
         self.terms = len(self.hyperSpheres)

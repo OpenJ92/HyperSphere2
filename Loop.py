@@ -28,7 +28,6 @@ class Loop:
             offset = None):
         self.domain_in = domain_in
         self.domain_out = self.domain_in + np.pi*2
-        assert len(self.domain_in) == len(self.domain_out)
         self.dims = len(self.domain_in) + 1
         self.control_points = control_points(self.domain_in, self.domain_out)(5)
         self.bezier = bezierCurve(self.domain_in, self.domain_out, self.control_points).sample(samples)

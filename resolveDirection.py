@@ -1,14 +1,29 @@
 import numpy as np
 from hyperSphere import hyperSphere
+import matplotlib.pyplot as plt
 
 class resolveDirection:
     """
         Parameters
         ___________
         vector::np.array : target vector
-        hyper_sphere::hyperSphere :  bow and arrow
+        hyper_sphere::hyperSphere : set of angularly independent vectors in space of self.vector
+        sub_space_hyper_sphere : set of angularly independent vectors in domain of self.hyper_sphere
+        iterations : maximum number of steps to take in method self.optimize
+        o : result of resolveDirection optimization
+        
+        Attributes
+        __________
+
+        Methods
+        _________
+        self.optimize : carry out the process of resolving direction of target self.vector
+        self.sample_domain_sub_domain(domain::(None|np.array),samples::int)::(::np.array, ::np.array)
+        self.domain_ball(sub_domain::np.array, radius::float)::np.array
+        self.make_domain_range(domain::np.array, domain_ball::np.array)::(::np.array, ::np.array)
+        self()::np.array : returns values of self.o
     """
-    def __init__(self, vector, iterations = 100):
+    def __init__(self, vector, iterations = 200):
         assert np.linalg.norm(vector) > 0
         self.vector = vector
         self.hyper_sphere = hyperSphere(len(self.vector))
@@ -20,35 +35,34 @@ class resolveDirection:
         return self.o
 
     def optimize(self):
-        initial_neighborhood_ball_ = self.initial_neighborhood_ball()
-        evaluate_sample_, sample_ = self.make_balls(self.sub_space_hyper_sphere, .1, initial_neighborhood_ball_, 300)
-        import pdb;pdb.set_trace()
-        return 0
+        for i in range(self.iterations):
+            domain_, sub_domain = self.sample_domain_sub_domain(domain_ if i > 0 else None)
+            domain_ball = self.domain_ball(sub_domain, i + 1)
+            domain_, range_ = self.make_domain_range(domain_, domain_ball)
+            measure__index, domain_ = self.measure_(domain_, range_)
+        return domain_
+        
+    def sample_domain_sub_domain(self, domain = None, samples = 100):
+        if isinstance(domain, type(None)):
+            domain = 2*np.pi*np.random.random_sample(size=(samples, self.hyper_sphere.dims-1))
+        sub_domain = 2*np.pi*np.random.random_sample(size=(samples, self.hyper_sphere.dims-2))
+        return domain, sub_domain
 
-    def initial_neighborhood_ball(self, evaluate_sample = None, sample = None):
-        if evaluate_sample == None and sample == None:
-            evaluate_sample, sample = self.make_ball(self.hyper_sphere, 1, 300)
-        min_measure = self.measure_(evaluate_sample, sample)
-        return sample[min_measure[:10]]
+    def domain_ball(self, sub_domain, radius = .5):
+        domain_ball = self.sub_space_hyper_sphere(sub_domain)
+        domain_ball = np.apply_along_axis(lambda x: (.5/radius)*np.random.random_sample()*x, 1, domain_ball)
+        return domain_ball
 
-    def make_ball(self, hyper_sphere, radius, samples):
-        sample = np.random.random_sample(size = (samples * hyper_sphere.dims, hyper_sphere.dims - 1))
-        evaluate_sample = np.apply_along_axis(lambda x: radius*np.random.random_sample()*x,
-                                              1,
-                                              hyper_sphere(sample))
-        return evaluate_sample, sample
+    def make_domain_range(self, domain, domain_ball):
+        domain_ = np.concatenate([q + domain_ball for q in domain], axis=0)
+        range_ = self.hyper_sphere(domain_)
+        return domain_, range_
 
-    def make_balls(self, hyper_sphere, radius, thetas, samples):
-        evaluate_sample_, sample = self.make_ball(self.sub_space_hyper_sphere, .1, 300)
-        evaluate_sample_ = np.concatenate([theta+evaluate_sample_ for theta in thetas], axis=0)
-        return evaluate_sample_, sample
-
-    def measure_(self, evaluate_sample, sample):
-        measure_sample = np.apply_along_axis(np.linalg.norm, 1, evaluate_sample - self.vector)
-        min_measure = np.argpartition(measure_sample, kth = 10)
-        return min_measure
-
+    def measure_(self, domain_, range_, n = 20):
+        measure__ = np.apply_along_axis(np.linalg.norm, 1, range_ - self.vector)
+        measure__index = np.argpartition(measure__, n)
+        return measure__index, domain_[measure__index[:n]]
 
 if __name__ == "__main__":
-    vector = np.array([1, 0, 0])
+    vector = hyperSphere([])
     rD = resolveDirection(vector)

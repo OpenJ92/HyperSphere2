@@ -31,12 +31,14 @@ class hyperSphere:
             assert self.domain_dims == theta.dims
             sample = theta.sample(500)
             return np.apply_along_axis(self, 1, sample) + self.offset
-        else:
+        elif isinstance(theta, np.ndarray) and len(theta.shape) == 2:
             return np.apply_along_axis(self.hyper_sphere, 1, theta)
+        else:
+            return np.array(self.hyper_sphere(theta))
     
     def sample(self, sample_size):
-        sample_domain = np.random.random_sample(size = (self.dims-1, sample_size))
-        return np.apply_along_axis(self, 0, sample_domain).T
+        sample_domain = np.random.random_sample(size = (self.dims-1, sample_size)).T
+        return self(sample_domain)
 
     def mhs(self, dims):
         function_head = f'def hyper_sphere(theta):'

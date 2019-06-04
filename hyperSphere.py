@@ -32,6 +32,7 @@ class hyperSphere:
             sample = theta.sample(500)
             return np.apply_along_axis(self, 1, sample) + self.offset
         else:
+            return np.apply_along_axis(self.hyper_sphere, 1, theta)
             return np.array(self.hyper_sphere(theta)) + self.offset
     
     def sample(self, sample_size):

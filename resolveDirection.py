@@ -1,6 +1,8 @@
 import numpy as np
 from hyperSphere import hyperSphere
+from Polynomial import  Polynomial
 import matplotlib.pyplot as plt
+from sklearn.mixture import GaussianMixture
 
 class resolveDirection:
     """
@@ -24,8 +26,8 @@ class resolveDirection:
         self()::np.array : returns values of self.o
     """
     def __init__(self, vector, iterations = 200):
-        assert np.linalg.norm(vector) > 0
-        self.vector = vector
+        self.vector = vector if not isinstance(vector,  Polynomial) else vector.coefficents
+        assert np.linalg.norm(self.vector) > 0
         self.hyper_sphere = hyperSphere(len(self.vector))
         self.sub_space_hyper_sphere = hyperSphere(len(self.vector) - 1)
         self.iterations = iterations
@@ -64,5 +66,6 @@ class resolveDirection:
         return measure__index, domain_[measure__index[:n]]
 
 if __name__ == "__main__":
-    vector = hyperSphere(3)([np.pi, 0])
-    rD = resolveDirection(vector)
+    vector = hyperSphere(3)([np.pi/3, 0])
+    poly = Polynomial(vector)
+    rD = resolveDirection(poly)

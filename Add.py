@@ -12,6 +12,7 @@ class Add(Operation):
     Inheritance
     ___________
     see Operation.py
+
     Parameters
     ___________
     hyperSpheres::iterable(hyperSphere)
@@ -47,6 +48,10 @@ class Add(Operation):
             return np.apply_along_axis(self, 1, sample)
         else:
             return np.array(self.evaluate_function(theta))
+    
+    def sample(self, sample_size):
+        sample_domain = np.random.random_sample(size = (self.dims, sample_size))
+        return np.apply_along_axis(self, 0, sample_domain).T
 
     def make_add(self):
         shift_ = self.shift()

@@ -41,5 +41,5 @@ if __name__ == "__main__":
     sample = np.ones(4)
     adjust = np.ones_like(sample)*np.pi*2
 
-    loops = [Loop(sample, sample+adjust) for _ in range(9)]
+    loops = [Loop(sample) for _ in range(9)]
     hyper_spheres = [hyperSphere(2), hyperSphere(3), hyperSphere(3)]

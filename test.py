@@ -5,6 +5,7 @@ from hyperSphere import hyperSphere
 from Multiply import Multiply
 from Add import Add
 from Loop import Loop
+from resolveDirection import resolveDirection
 
 def test_unit(hypS, sample_size):
     sample = np.pi*2*np.random.random_sample((sample_size, hypS.dims-1))

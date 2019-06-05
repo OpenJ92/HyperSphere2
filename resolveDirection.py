@@ -40,7 +40,7 @@ class resolveDirection:
             domain_ball = self.domain_ball(sub_domain, i + 1)
             domain_, range_ = self.make_domain_range(domain_, domain_ball)
             measure__index, domain_ = self.measure_(domain_, range_)
-        return domain_
+        return domain_ % np.pi*2
         
     def sample_domain_sub_domain(self, domain = None, samples = 100):
         if isinstance(domain, type(None)):
@@ -64,5 +64,5 @@ class resolveDirection:
         return measure__index, domain_[measure__index[:n]]
 
 if __name__ == "__main__":
-    vector = hyperSphere([])
+    vector = hyperSphere(3)([np.pi, 0])
     rD = resolveDirection(vector)

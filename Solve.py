@@ -1,6 +1,8 @@
 import numpy as np
 from hyperSphere import hyperSphere
 
+#This is not a real file. 
+
 class Solve:
     def __init__(self, function, domain_dimension, pos = None, num_samples = 5000, num_iterations = 500, learning_rate = .01):
         self.function = function

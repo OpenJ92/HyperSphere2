@@ -9,6 +9,9 @@ from hyperSphere import hyperSphere
 
 class Add(Operation):
     """
+    Inheritance
+    ___________
+    see Operation.py
     Parameters
     ___________
     hyperSpheres::iterable(hyperSphere)
@@ -39,9 +42,11 @@ class Add(Operation):
             assert self.dims == theta().shape[1]
             return np.apply_along_axis(self, 1, theta())
         elif isinstance(theta, hyperSphere):
-            pass
+            assert self.dims == theta.dims
+            sample = theta.sample(500)
+            return np.apply_along_axis(self, 1, sample)
         else:
-            return self.evaluate_function(theta)
+            return np.array(self.evaluate_function(theta))
 
     def make_add(self):
         shift_ = self.shift()

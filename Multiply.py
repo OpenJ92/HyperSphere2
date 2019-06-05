@@ -9,7 +9,11 @@ from hyperSphere import hyperSphere
 
 class Multiply(Operation):
     """
-        Parameters
+        Inheritance
+        ___________
+        see Operation.py
+
+       Parameters
         ___________
         hyperSpheres::iterable(hyperSphere)
 
@@ -41,9 +45,11 @@ class Multiply(Operation):
             assert self.dims == theta().shape[1]
             return np.apply_along_axis(self, 1, theta())
         elif isinstance(theta, hyperSphere):
-            pass
+            assert self.dims == theta.dims
+            sample = theta.sample(500)
+            return np.apply_along_axis(self, 1, sample)
         else:
-            return self.evaluate_function(theta)
+            return np.array(self.evaluate_function(theta))
 
     def sample(self, sample_size):
         sample_domain = np.random.random_sample(size = (self.dims, sample_size))

@@ -34,11 +34,12 @@ class Multiply(Operation):
         self(x::hyperSphere)::np.ndarray
     """
     def __init__(self, *hyperSpheres):
+        hyperSpheres = tuple(self.mhSfi(hyperSpheres[0])) if isinstance(hyperSpheres[0], int) else hyperSpheres
         super(Multiply, self).__init__(*hyperSpheres)
         self.str_func = self.make_product()
         exec(self.str_func)
         self.evaluate_function = locals()['hyper_sphere']
-        self.dims = sum(self.DomainDims)
+        self.dims = sum(self.DomainDims) + 1
 
     def __call__(self, theta):
         if isinstance(theta, Loop):
@@ -49,7 +50,7 @@ class Multiply(Operation):
             sample = theta.sample(500)
             return np.apply_along_axis(self, 1, sample)
         else:
-            return np.array(self.evaluate_function(theta))
+            return np.apply_along_axis(self.evaluate_function, 1, theta) 
 
     def sample(self, sample_size):
         sample_domain = np.random.random_sample(size = (self.dims, sample_size))
@@ -93,4 +94,8 @@ class Multiply(Operation):
                 container_vector[reduce(lambda x,y: x+y, index)] += f"+{container_hyper_rectangle_[index]}"
         return container_vector
 
-
+    def mhSfi(self, int_):
+        int_-=1
+        linear_form = [] if int_ % 2 != 1 else [hyperSphere(2)]
+        quadradic_forms = [hyperSphere(3) for _ in range(int_ // 2)]
+        return linear_form + quadradic_forms

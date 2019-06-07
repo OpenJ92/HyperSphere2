@@ -1,7 +1,7 @@
 import numpy as np
 from hyperSphere import hyperSphere
+from Multiply import Multiply
 from Polynomial import  Polynomial
-import matplotlib.pyplot as plt
 from sklearn.mixture import GaussianMixture
 
 class resolveDirection:
@@ -60,12 +60,12 @@ class resolveDirection:
         range_ = self.hyper_sphere(domain_)
         return domain_, range_
 
-    def measure_(self, domain_, range_, n = 20):
+    def measure_(self, domain_, range_, n=20):
         measure__ = np.apply_along_axis(np.linalg.norm, 1, range_ - self.vector)
         measure__index = np.argpartition(measure__, n)
         return measure__index, domain_[measure__index[:n]]
 
 if __name__ == "__main__":
-    vector = hyperSphere(3)([np.pi/3, 0])
+    vector = hyperSphere(7)([np.pi/3, 0, 0, 0, 0, 0])
     poly = Polynomial(vector)
     rD = resolveDirection(poly)

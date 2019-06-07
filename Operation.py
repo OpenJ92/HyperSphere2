@@ -1,4 +1,4 @@
-import itertools
+from hyperSphere import hyperSphere
 from itertools import product
 
 class Operation:
@@ -41,5 +41,4 @@ class Operation:
 
     def container(self, shift_):
         return [element.split(',')[:-1] for element in shift_]
-
 

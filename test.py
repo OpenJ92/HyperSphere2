@@ -29,6 +29,7 @@ if __name__ == "__main__":
     n = 2
     m = Multiply(hS, *[hS1 for i in range(n)])
     m_ = Multiply(hS, hS)
+    m__ = Multiply(7)
     a = Add(hS, *[hS1 for i in range(n)])
     
     sample = np.ones(3)

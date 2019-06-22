@@ -56,3 +56,7 @@ class hyperSphere:
         complete_function = f"""{function_head}
             return {function_body}"""
         return complete_function
+
+if __name__ == "__main__":
+    hS = hyperSphere(2)
+    hS_ = hyperSphere(300)

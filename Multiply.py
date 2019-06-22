@@ -61,18 +61,15 @@ class Multiply(Operation):
         container_ = self.container(shift_)
         container_hyper_rectangle_ = self.container_hyper_rectangle(container_)
         container_vector_ = self.container_vector(container_hyper_rectangle_)
-
         function_head = "def hyper_sphere(theta):"
         function_body = f"""{container_vector_}"""[1:-1].replace("'", "").replace("\n", ",")
         function_complete = f"""{function_head}
             return {function_body}"""
-
         return function_complete
 
     def container_hyper_rectangle(self, container_):
         hyper_rectangle = np.empty(shape = (self.RangeDims), dtype = "O")
         cartesian_product = product(*self.basis_bounds)
-
         for index in cartesian_product:
             for sub_index, vector in zip(index, container_):
                 if hyper_rectangle[index] == None:
@@ -86,12 +83,13 @@ class Multiply(Operation):
         vector_shape = reduce(lambda x,y: x+y,self.DomainDims) + 1
         container_vector = np.empty(shape = (vector_shape), dtype = "O")
         cartesian_product = product(*self.basis_bounds)
-
         for index in cartesian_product:
-            if container_vector[reduce(lambda x,y: x+y, index)] == None:
-                container_vector[reduce(lambda x,y: x+y, index)] = f"{container_hyper_rectangle_[index]}"
+            A = reduce(lambda x,y: x+y, index)
+            print(A, index)
+            if container_vector[A] == None:
+                container_vector[A] = f"{container_hyper_rectangle_[index]}"
             else:
-                container_vector[reduce(lambda x,y: x+y, index)] += f"+{container_hyper_rectangle_[index]}"
+                container_vector[A] += f"+{container_hyper_rectangle_[index]}"
         return container_vector
 
     def mhSfi(self, int_):
@@ -99,3 +97,9 @@ class Multiply(Operation):
         linear_form = [] if int_ % 2 != 1 else [hyperSphere(2)]
         quadradic_forms = [hyperSphere(3) for _ in range(int_ // 2)]
         return linear_form + quadradic_forms
+
+if __name__ == "__main__":
+    n = 2 
+    linear = hyperSphere(2)
+    quadratic = [hyperSphere(3) for _ in range(n)]
+    m = Multiply(linear, *quadratic)

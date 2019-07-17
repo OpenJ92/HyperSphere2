@@ -60,5 +60,5 @@ class solvePolynomial:
         plt.show()
 
 if __name__ == "__main__":
-    pol = Polynomial(np.random.random_sample(7))
+    pol = Polynomial(np.random.random_sample(17))
     sP = solvePolynomial(pol)

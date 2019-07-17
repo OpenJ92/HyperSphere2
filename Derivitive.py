@@ -21,14 +21,6 @@ class Derivitive(Operation):
         shift_ = self.shift()
         container_ = self.container(shift_)
 
-        # there's currently a bug in the code with respect to the replace statements. 
-        #   The problem is that on the first loop, cos is turned to sin and on the second
-        #   loop, we need to have the recently changed sin functions immutable. They're 
-        #   being changed back to cos in this current iteration.
-        #
-        #   Bizzare fix at line 32
-        #   Consider if this will work for multiply object.
-
         for index in range(len(container_[0])):
             for key in dictionary:
                 print(key, dictionary[key])

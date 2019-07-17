@@ -18,7 +18,7 @@ class hyperSphere:
         self.sample(sample_size::int)::np.array : evaluate self at a random sample
         self(x::np.array|hyperSphere|Bezier)::np.array : evaluate self over a particular domain
     """
-    def __init__(self, dims, offset = None):
+    def __init__(self, dims: int, offset: np.array = None):
         self.dims = dims
         self.domain_dims = self.dims - 1
         self.str_func = self.mhs(dims)
@@ -36,7 +36,7 @@ class hyperSphere:
         else:
             return np.array(self.hyper_sphere(theta))
     
-    def sample(self, sample_size):
+    def sample(self, sample_size: int):
         sample_domain = np.random.random_sample(size = (self.dims-1, sample_size)).T
         return self(sample_domain)
 

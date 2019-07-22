@@ -1,3 +1,7 @@
 # HyperSphere2
 
-This project is a means to construct hyper spheres in arbitrary dimensions using techniques of Meta-programming
+A module levering Numpy, Python’s OOP suite and concepts of Metaprogramming to construct hyper-
+spheres and their n-derivatives in any M-dimensional space. We then define additive and multiplicative
+Operations on these spheres in the context of single variable polynomials. The goal of this project is to
+numerically inspect the topological properties of these objects and have them ready for use in Gradient
+Descent algorithms over non-differentiable fields.
